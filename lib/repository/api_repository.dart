@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String apiKey = 'key';
+String apiKey = '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';
 
 class ApiServiceForYou {
   static String baseUrl = "https://api.openai.com/v1/completions";
@@ -24,13 +24,10 @@ class ApiServiceForYou {
         "stop": [" Human:", " AI:"]
       }),
     );
-    print(response.body);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
       var msg = data['choices'][0]['text'];
       return msg;
-    } else {
-      print("Failed To Fetch  Data");
-    }
+    } else {}
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:voiceGPT/repository/api_repository.dart';
+import 'package:voice_gpt/repository/api_repository.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import '../models/chat_model.dart';
 
