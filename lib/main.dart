@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'speech_screen.dart';
+import 'views/home_view.dart';
 
 void main() {
   runApp(const MyApp());
