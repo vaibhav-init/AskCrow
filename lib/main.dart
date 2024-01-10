@@ -1,10 +1,11 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:voice_gpt/common/loader.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   Gemini.init(
     apiKey: dotenv.env['API_KEY'] ?? "",
@@ -13,16 +14,33 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     final gemini = Gemini.instance;
 
     return MaterialApp(
-      theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: AvatarGlow(
+          endRadius: 80,
+          glowColor: Colors.purple,
+          duration: const Duration(seconds: 2),
+          animate: true,
+          repeat: true,
+          repeatPauseDuration: const Duration(milliseconds: 100),
+          showTwoGlows: true,
+          child: GestureDetector(
+            onTapDown: (details) async {},
+            onTapUp: (details) async {},
+            child: const CircleAvatar(
+              radius: 40,
+              child: Icon(Icons.mic, color: Colors.white),
+            ),
+          ),
+        ),
         body: SafeArea(
           child: ContentWidget(gemini: gemini),
         ),
@@ -37,6 +55,7 @@ class ContentWidget extends StatefulWidget {
   const ContentWidget({Key? key, required this.gemini}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ContentWidgetState createState() => _ContentWidgetState();
 }
 
