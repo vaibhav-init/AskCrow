@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
-// import 'presentation/screens/home_screen.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -20,18 +17,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final gemini = Gemini.instance;
 
-    gemini
-        .streamGenerateContent('Who is the pm of indian current ! ')
-        .listen((value) {
-      print(value.output);
-    }).onError((e) {
-      log('streamGenerateContent exception', error: e);
-    });
-
     return MaterialApp(
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home: const Scaffold(),
+      home: Scaffold(
+        body: StreamBuilder(
+            stream: gemini.streamGenerateContent(
+                'top 10 most influncial persons in the world'),
+            builder: (context, snapshot) {
+              return Text(
+                snapshot.data.toString(),
+              );
+            }),
+      ),
     );
   }
 }
