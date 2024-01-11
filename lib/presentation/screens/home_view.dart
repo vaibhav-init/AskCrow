@@ -1,9 +1,9 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:voice_gpt/common/loader.dart';
+import 'package:voice_gpt/common/utils.dart';
 import 'package:voice_gpt/data/repository/chat_repository.dart';
 
 class HomeView extends StatefulWidget {
@@ -20,19 +20,6 @@ class _HomeViewState extends State<HomeView> {
   SpeechToText speechToText = SpeechToText();
   bool isListening = false;
   var textToShow = "Hold And Ask Your Question !";
-  @override
-  void initState() {
-    super.initState();
-    Fluttertoast.showToast(
-      msg: "This is Center Short Toast",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,15 +137,14 @@ class _HomeViewState extends State<HomeView> {
                 isLoading = true;
               });
               String message = _messageController.text;
-              String result = await APIService.getData(message);
+              String response = await APIService.getData(message);
 
               setState(() {
-                result = result;
+                result = response;
                 isLoading = false;
               });
             } else {
-              // ignore: avoid_print
-              print('Empty prompt !');
+              showToast('Enter some text man !');
             }
           },
           child: CircleAvatar(
