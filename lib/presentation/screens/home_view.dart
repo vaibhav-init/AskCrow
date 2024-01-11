@@ -1,31 +1,71 @@
+import 'package:avatar_glow/avatar_glow.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 import 'package:voice_gpt/common/loader.dart';
 import 'package:voice_gpt/data/repository/chat_repository.dart';
 
-class ApiPage extends StatefulWidget {
-  const ApiPage({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _ApiPageState createState() => _ApiPageState();
+  _HomeViewState createState() => _HomeViewState();
 }
 
-class _ApiPageState extends State<ApiPage> {
+class _HomeViewState extends State<HomeView> {
   final TextEditingController _messageController = TextEditingController();
-  String _result = '';
+  String result = '';
   bool isLoading = false;
+  SpeechToText speechToText = SpeechToText();
+  bool isListening = false;
+  var textToShow = "Hold And Ask Your Question !";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('API Page'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SvgPicture.asset(
+              'assets/svgs/bot.svg',
+              height: 35,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            const Text(
+              "AskCrow",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.history,
+            ),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Text(
+              textToShow,
+              style: TextStyle(
+                color: isListening ? Colors.black54 : Colors.grey,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 20),
             Neumorphic(
               style: NeumorphicStyle(
                 shape: NeumorphicShape.concave,
@@ -42,8 +82,8 @@ class _ApiPageState extends State<ApiPage> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            _result,
-                            style: const TextStyle(fontSize: 16),
+                            result,
+                            style: const TextStyle(fontSize: 18),
                           ),
                         ),
                       )
@@ -52,34 +92,61 @@ class _ApiPageState extends State<ApiPage> {
                       ),
               ),
             ),
-            TextField(
-              controller: _messageController,
-              decoration: const InputDecoration(
-                labelText: 'Enter your message',
-              ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                if (_messageController.text != '') {
-                  setState(() {
-                    isLoading = true;
-                  });
-                  String message = _messageController.text;
-                  String result = await APIService.getData(message);
-                  setState(() {
-                    _result = result;
-                    isLoading = false;
-                  });
-                } else {
-                  // ignore: avoid_print
-                  print('Empty prompt !');
-                }
-              },
-              child: const Text('Generate Content'),
-            ),
-            const SizedBox(height: 20),
           ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: AvatarGlow(
+        duration: const Duration(seconds: 2),
+        animate: isListening,
+        glowColor: Colors.lightGreen.withOpacity(0.2),
+        repeat: true,
+        child: GestureDetector(
+          onTapDown: (details) async {
+            if (!isListening) {
+              var ava = await speechToText.initialize();
+              if (ava) {
+                setState(() {
+                  isListening = true;
+
+                  speechToText.listen(onResult: (result) {
+                    setState(() {
+                      textToShow = result.recognizedWords;
+                    });
+                  });
+                });
+              }
+            }
+          },
+          onTapUp: (details) async {
+            setState(() {
+              isListening = false;
+            });
+            speechToText.stop();
+            _messageController.text = textToShow;
+            if (_messageController.text != '') {
+              setState(() {
+                isLoading = true;
+              });
+              String message = _messageController.text;
+              String result = await APIService.getData(message);
+              setState(() {
+                result = result;
+                isLoading = false;
+              });
+            } else {
+              // ignore: avoid_print
+              print('Empty prompt !');
+            }
+          },
+          child: CircleAvatar(
+            radius: 35,
+            backgroundColor: Colors.green.withOpacity(0.1),
+            child: Icon(
+              isListening ? Icons.mic : Icons.mic_none,
+              color: Colors.black,
+            ),
+          ),
         ),
       ),
     );

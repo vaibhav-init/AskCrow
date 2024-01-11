@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:voice_gpt/data/repository/chat_repository.dart';
 import 'package:voice_gpt/presentation/screens/home_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-
   runApp(const MyApp());
 }
 
@@ -15,7 +13,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    APIService.getData('who is virat kohli ');
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -24,7 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const Scaffold(
         body: SafeArea(
-          child: ApiPage(),
+          child: HomeView(),
         ),
       ),
     );

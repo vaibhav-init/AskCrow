@@ -3,3 +3,5 @@
 -> ui update 
 
 #change to GEMNI MODEL GOOGLE ...
+
+sound on tap 
