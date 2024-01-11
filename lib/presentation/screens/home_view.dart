@@ -1,5 +1,6 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:voice_gpt/common/loader.dart';
@@ -19,6 +20,19 @@ class _HomeViewState extends State<HomeView> {
   SpeechToText speechToText = SpeechToText();
   bool isListening = false;
   var textToShow = "Hold And Ask Your Question !";
+  @override
+  void initState() {
+    super.initState();
+    Fluttertoast.showToast(
+      msg: "This is Center Short Toast",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +42,10 @@ class _HomeViewState extends State<HomeView> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SvgPicture.asset(
+              colorFilter: const ColorFilter.mode(
+                Colors.green,
+                BlendMode.srcIn,
+              ),
               'assets/svgs/bot.svg',
               height: 35,
             ),
@@ -45,7 +63,10 @@ class _HomeViewState extends State<HomeView> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(
+              context,
+              '/history',
+            ),
             icon: const Icon(
               Icons.history,
             ),
@@ -130,6 +151,7 @@ class _HomeViewState extends State<HomeView> {
               });
               String message = _messageController.text;
               String result = await APIService.getData(message);
+
               setState(() {
                 result = result;
                 isLoading = false;
@@ -141,10 +163,11 @@ class _HomeViewState extends State<HomeView> {
           },
           child: CircleAvatar(
             radius: 35,
-            backgroundColor: Colors.green.withOpacity(0.1),
+            backgroundColor: Colors.green,
             child: Icon(
+              size: 30,
               isListening ? Icons.mic : Icons.mic_none,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
         ),

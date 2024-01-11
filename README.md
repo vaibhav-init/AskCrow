@@ -4,4 +4,5 @@
 
 #change to GEMNI MODEL GOOGLE ...
 
-sound on tap 
+sound on tap !
+add toast message ! 

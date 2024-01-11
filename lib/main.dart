@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:voice_gpt/presentation/screens/history_view.dart';
 import 'package:voice_gpt/presentation/screens/home_view.dart';
 
 void main() async {
@@ -24,6 +25,10 @@ class MyApp extends StatelessWidget {
           child: HomeView(),
         ),
       ),
+      routes: {
+        '/home': (context) => const HomeView(),
+        '/history': (context) => const HistoryView(),
+      },
     );
   }
 }
