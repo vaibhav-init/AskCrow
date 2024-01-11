@@ -10,7 +10,7 @@ class Loader extends StatelessWidget {
       child: Lottie.asset(
         'assets/animations/loading_animation.json',
         repeat: true,
-        width: 150,
+        width: 107,
       ),
     );
   }
