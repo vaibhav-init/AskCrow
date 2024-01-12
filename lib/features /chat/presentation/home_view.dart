@@ -1,7 +1,7 @@
 import 'package:ask_crow/common/loader.dart';
 import 'package:ask_crow/common/utils.dart';
-import 'package:ask_crow/data/repository/chat_repository.dart';
-import 'package:ask_crow/data/repository/local_storage_api.dart';
+import 'package:ask_crow/features%20/chat/data/data_provider/chat_data_provider.dart';
+import 'package:ask_crow/features%20/history/data/local_storage_api.dart';
 import 'package:ask_crow/models/question_model.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter_svg/svg.dart';
@@ -152,7 +152,7 @@ class HomeViewState extends State<HomeView> {
                 isLoading = true;
               });
               String message = _messageController.text;
-              String response = await APIService.getData(message);
+              String response = await ChatDataProvider.getData(message);
               await addQuestion(textToShow);
 
               setState(() {

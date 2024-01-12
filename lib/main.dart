@@ -1,5 +1,5 @@
-import 'package:ask_crow/presentation/screens/history_view.dart';
-import 'package:ask_crow/presentation/screens/home_view.dart';
+import 'package:ask_crow/features%20/history/presentation/history_view.dart';
+import 'package:ask_crow/features%20/chat/presentation/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
