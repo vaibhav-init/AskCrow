@@ -1,13 +1,13 @@
+import 'package:ask_crow/common/loader.dart';
+import 'package:ask_crow/common/utils.dart';
+import 'package:ask_crow/data/repository/chat_repository.dart';
+import 'package:ask_crow/data/repository/local_storage_api.dart';
+import 'package:ask_crow/models/question_model.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:uuid/uuid.dart';
-import 'package:voice_gpt/common/loader.dart';
-import 'package:voice_gpt/common/utils.dart';
-import 'package:voice_gpt/data/repository/chat_repository.dart';
-import 'package:voice_gpt/data/repository/local_storage_api.dart';
-import 'package:voice_gpt/models/question_model.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
