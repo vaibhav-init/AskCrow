@@ -21,6 +21,8 @@ dependencies:
   neumorphic_ui: ^1.0.1
   path_provider: ^2.1.2
   fluttertoast: ^8.2.4
+  path: ^1.8.0
+  uuid: ^4.3.3
 
 dev_dependencies:
   flutter_test:
