@@ -2,9 +2,12 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:uuid/uuid.dart';
 import 'package:voice_gpt/common/loader.dart';
 import 'package:voice_gpt/common/utils.dart';
 import 'package:voice_gpt/data/repository/chat_repository.dart';
+import 'package:voice_gpt/data/repository/local_storage_api.dart';
+import 'package:voice_gpt/models/question_model.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -15,11 +18,23 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final TextEditingController _messageController = TextEditingController();
+  final SqliteService sqliteService = SqliteService();
   String result = '';
   bool isLoading = false;
   SpeechToText speechToText = SpeechToText();
   bool isListening = false;
   var textToShow = "Hold And Ask Your Question !";
+  Future<void> addQuestion(String questionText) async {
+    String uuid = const Uuid().v1();
+
+    if (questionText.isNotEmpty) {
+      QuestionModel newQuestion = QuestionModel(
+        title: questionText,
+        id: uuid,
+      );
+      await sqliteService.createQuestion(newQuestion);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +153,7 @@ class _HomeViewState extends State<HomeView> {
               });
               String message = _messageController.text;
               String response = await APIService.getData(message);
+              await addQuestion(textToShow);
 
               setState(() {
                 result = response;
