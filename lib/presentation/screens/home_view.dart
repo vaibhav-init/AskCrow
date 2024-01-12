@@ -13,10 +13,10 @@ class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
   @override
-  _HomeViewState createState() => _HomeViewState();
+  HomeViewState createState() => HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class HomeViewState extends State<HomeView> {
   final TextEditingController _messageController = TextEditingController();
   final SqliteService sqliteService = SqliteService();
   String result = '';

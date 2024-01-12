@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_print
 
+import 'package:ask_crow/models/question_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:voice_gpt/models/question_model.dart';
 
 class SqliteService {
   static const String tableName = 'question_list';
