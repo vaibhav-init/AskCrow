@@ -11,6 +11,8 @@ class HistoryLoadedState extends HistoryState {
   HistoryLoadedState(this.questions);
 }
 
+class HistoryLoading extends HistoryState {}
+
 class HistoryErrorState extends HistoryState {
   final String error;
 

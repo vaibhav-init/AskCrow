@@ -18,6 +18,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     QuestionsLoaded state,
     Emitter<HistoryState> emit,
   ) async {
+    emit(HistoryLoading());
     try {
       List<QuestionModel> loadedQuestions = await sqliteService.getQuestions();
       emit(
@@ -36,6 +37,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     QuestionsDeleted state,
     Emitter<HistoryState> emit,
   ) async {
+    emit(HistoryLoading());
     try {
       await sqliteService.deleteAllQuestions();
       emit(
