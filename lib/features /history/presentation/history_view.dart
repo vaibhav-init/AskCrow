@@ -16,23 +16,9 @@ class HistoryViewState extends State<HistoryView> {
   final SqliteService sqliteService = SqliteService();
   List<QuestionModel> questions = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _loadQuestions();
-  }
-
   Future<void> deleteAllQuestions() async {
     await sqliteService.deleteAllQuestions();
-    _loadQuestions();
     showToast('History Cleared!');
-  }
-
-  Future<void> _loadQuestions() async {
-    List<QuestionModel> loadedQuestions = await sqliteService.getQuestions();
-    setState(() {
-      questions = loadedQuestions;
-    });
   }
 
   @override

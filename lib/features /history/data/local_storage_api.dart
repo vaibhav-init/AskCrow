@@ -38,19 +38,10 @@ class SqliteService {
     return queryResult.map((e) => QuestionModel.fromMap(e)).toList();
   }
 
-  Future<void> deleteQuestion(String id) async {
-    final db = await initializeDB();
-    try {
-      await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
-    } catch (err) {
-      print(err.toString());
-    }
-  }
-
   Future<void> deleteAllQuestions() async {
     final db = await initializeDB();
     try {
-      await db.delete(tableName); // Delete all records from the table
+      await db.delete(tableName);
     } catch (err) {
       print(err.toString());
     }
