@@ -1,14 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:ask_crow/common/loader.dart';
 import 'package:ask_crow/common/utils.dart';
-import 'package:ask_crow/features%20/chat/data/data_provider/chat_data_provider.dart';
-import 'package:ask_crow/features%20/history/data/local_storage_api.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-
 import '../../history/bloc/history_bloc.dart';
+import '../../history/data/local_storage_api.dart';
+import '../data/data_provider/chat_data_provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});

@@ -1,4 +1,3 @@
-import 'package:ask_crow/features%20/chat/bloc/chat_bloc.dart';
 import 'package:ask_crow/features%20/history/bloc/history_bloc.dart';
 import 'package:ask_crow/features%20/history/data/local_storage_api.dart';
 import 'package:ask_crow/features%20/history/presentation/history_view.dart';
@@ -26,9 +25,6 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<ChatBloc>(
-            create: (BuildContext context) => ChatBloc(),
-          ),
           BlocProvider<HistoryBloc>(
             create: (BuildContext context) =>
                 HistoryBloc(context.read<SqliteService>()),
