@@ -1,3 +1,4 @@
+import 'package:ask_crow/features%20/chat/bloc/chat_bloc.dart';
 import 'package:ask_crow/features%20/history/bloc/history_bloc.dart';
 import 'package:ask_crow/features%20/history/data/local_storage_api.dart';
 import 'package:ask_crow/features%20/history/presentation/history_view.dart';
@@ -17,10 +18,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => SqliteService(),
-      child: BlocProvider(
-        create: (context) => HistoryBloc(context.read<SqliteService>()),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<SqliteService>(
+          create: (context) => SqliteService(),
+        ),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<ChatBloc>(
+            create: (BuildContext context) => ChatBloc(),
+          ),
+          BlocProvider<HistoryBloc>(
+            create: (BuildContext context) =>
+                HistoryBloc(context.read<SqliteService>()),
+          ),
+        ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(

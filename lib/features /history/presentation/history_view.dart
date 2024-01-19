@@ -1,6 +1,6 @@
-import 'package:ask_crow/features%20/history/bloc/history_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/history_bloc.dart';
 
 class HistoryView extends StatefulWidget {
   const HistoryView({super.key});
@@ -64,7 +64,8 @@ class HistoryViewState extends State<HistoryView> {
                     itemBuilder: (context, index) {
                       return ListTile(
                         title: Text(
-                            '${index + 1}. ${state.questions[index].title}'),
+                          '${index + 1}. ${state.questions[index].title}',
+                        ),
                       );
                     },
                   ),
