@@ -2,14 +2,13 @@
 
 import 'package:ask_crow/common/loader.dart';
 import 'package:ask_crow/common/utils.dart';
+import 'package:ask_crow/features%20/chat/bloc/chat_bloc.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:neumorphic_ui/neumorphic_ui.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import '../../history/bloc/history_bloc.dart';
-import '../../history/data/local_storage_api.dart';
-import '../data/data_provider/chat_data_provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -19,13 +18,15 @@ class HomeView extends StatefulWidget {
 }
 
 class HomeViewState extends State<HomeView> {
-  final TextEditingController _messageController = TextEditingController();
-  final SqliteService sqliteService = SqliteService();
-  String result = '';
-  bool isLoading = false;
   SpeechToText speechToText = SpeechToText();
   bool isListening = false;
   var textToShow = "Hold And Ask Your Question !";
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<ChatBloc>().add(ChatInit());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,19 +92,31 @@ class HomeViewState extends State<HomeView> {
               child: SizedBox(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.7,
-                child: !isLoading
-                    ? SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            result,
-                            style: const TextStyle(fontSize: 18),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: BlocBuilder<ChatBloc, ChatState>(
+                      builder: (context, state) {
+                        if (state is ChatLoading) {
+                          return const Expanded(
+                            child: Center(
+                              child: Loader(),
+                            ),
+                          );
+                        }
+                        if (state is! ChatFetched) {
+                          return const Text('');
+                        }
+                        return Text(
+                          state.text,
+                          style: const TextStyle(
+                            fontSize: 18,
                           ),
-                        ),
-                      )
-                    : const Center(
-                        child: Loader(),
-                      ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
@@ -133,25 +146,22 @@ class HomeViewState extends State<HomeView> {
             }
           },
           onTapUp: (details) async {
+            context.read<ChatBloc>().add(
+                  GetChatData(text: 'Who is Vaibhav Lakhera '),
+                );
             setState(() {
               isListening = false;
             });
             speechToText.stop();
-            _messageController.text = textToShow;
-            if (_messageController.text != '') {
-              setState(() {
-                isLoading = true;
-              });
-              String message = _messageController.text;
-              String response = await ChatDataProvider.getData(message);
+
+            if (textToShow != '') {
+              String message = textToShow;
+              context.read<ChatBloc>().add(
+                    GetChatData(text: message),
+                  );
               context
                   .read<HistoryBloc>()
                   .add(QuestionAdded(question: textToShow));
-
-              setState(() {
-                result = response;
-                isLoading = false;
-              });
             } else {
               showToast('Enter some text man !');
             }
