@@ -12,3 +12,9 @@ final class ChatFetched extends ChatState {
 }
 
 final class ChatLoading extends ChatState {}
+
+final class ChatError extends ChatState {
+  final String error;
+
+  ChatError({required this.error});
+}

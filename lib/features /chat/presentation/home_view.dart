@@ -92,29 +92,40 @@ class HomeViewState extends State<HomeView> {
               child: SizedBox(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.7,
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: BlocBuilder<ChatBloc, ChatState>(
-                      builder: (context, state) {
-                        if (state is ChatLoading) {
-                          return const Expanded(
-                            child: Center(
-                              child: Loader(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: BlocBuilder<ChatBloc, ChatState>(
+                    builder: (context, state) {
+                      if (state is ChatLoading) {
+                        return const Expanded(
+                          child: Center(
+                            child: Loader(),
+                          ),
+                        );
+                      }
+                      if (state is ChatError) {
+                        return Center(
+                          child: Text(
+                            state.error,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
                             ),
-                          );
-                        }
-                        if (state is! ChatFetched) {
-                          return const Text('');
-                        }
-                        return Text(
+                          ),
+                        );
+                      }
+                      if (state is! ChatFetched) {
+                        return const Text('');
+                      }
+                      return SingleChildScrollView(
+                        child: Text(
                           state.text,
                           style: const TextStyle(
                             fontSize: 18,
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

@@ -14,11 +14,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       emit(ChatLoading());
       try {
         String message = await ChatDataProvider.getData(event.text);
-        emit(
-          ChatFetched(text: message),
-        );
+        emit(ChatFetched(text: message));
       } catch (e) {
-        print(e);
+        emit(ChatError(error: e.toString()));
       }
     });
     on<ChatInit>((event, emit) => emit(ChatInitial()));
