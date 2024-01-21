@@ -134,56 +134,58 @@ class HomeViewState extends State<HomeView> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: AvatarGlow(
-        duration: const Duration(seconds: 2),
-        animate: isListening,
-        glowColor: Colors.lightGreen.withOpacity(0.2),
-        repeat: true,
-        child: GestureDetector(
-          onTapDown: (details) async {
-            if (!isListening) {
-              var ava = await speechToText.initialize();
-              if (ava) {
-                setState(() {
-                  isListening = true;
+      floatingActionButton: GestureDetector(
+        onTapDown: (details) async {
+          if (!isListening) {
+            var ava = await speechToText.initialize();
+            if (ava) {
+              setState(() {
+                isListening = true;
 
-                  speechToText.listen(onResult: (result) {
-                    setState(() {
-                      textToShow = result.recognizedWords;
-                    });
+                speechToText.listen(onResult: (result) {
+                  setState(() {
+                    textToShow = result.recognizedWords;
                   });
                 });
-              }
+              });
             }
-          },
-          onTapUp: (details) async {
-            context.read<ChatBloc>().add(
-                  GetChatData(text: 'Who is Vaibhav Lakhera '),
-                );
-            setState(() {
-              isListening = false;
-            });
-            speechToText.stop();
+          }
+        },
+        onTapUp: (details) async {
+          context.read<ChatBloc>().add(
+                GetChatData(text: 'Who is Vaibhav Lakhera '),
+              );
+          setState(() {
+            isListening = false;
+          });
+          speechToText.stop();
 
-            if (textToShow != '') {
-              String message = textToShow;
-              context.read<ChatBloc>().add(
-                    GetChatData(text: message),
-                  );
-              context
-                  .read<HistoryBloc>()
-                  .add(QuestionAdded(question: textToShow));
-            } else {
-              showToast('Enter some text man !');
-            }
-          },
-          child: CircleAvatar(
-            radius: 35,
-            backgroundColor: Colors.green,
-            child: Icon(
-              size: 30,
-              isListening ? Icons.mic : Icons.mic_none,
-              color: Colors.white,
+          if (textToShow != '') {
+            String message = textToShow;
+            context.read<ChatBloc>().add(
+                  GetChatData(text: message),
+                );
+            context
+                .read<HistoryBloc>()
+                .add(QuestionAdded(question: textToShow));
+          } else {
+            showToast('Enter some text man !');
+          }
+        },
+        child: AvatarGlow(
+          duration: const Duration(seconds: 2),
+          animate: isListening,
+          glowColor: Colors.lightGreen.withOpacity(0.2),
+          repeat: true,
+          child: GestureDetector(
+            child: CircleAvatar(
+              radius: 35,
+              backgroundColor: Colors.green,
+              child: Icon(
+                size: 30,
+                isListening ? Icons.mic : Icons.mic_none,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
