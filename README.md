@@ -3,15 +3,17 @@
 Google Gemini-based Bot.
 
 
+## Youtube Link: https://youtube.com/shorts/bQyymSsTWo4?feature=share
+
+
 #### Screenshots:
 
-
-<img src="https://i.ibb.co/NsgK8gf/Screenshot-from-2023-11-03-01-02-39.png" width="800" height="400">
-
-<img src="https://i.ibb.co/hRKYCCg/ss2.png" width="800" height="400">
-
-<img src="https://i.ibb.co/d0TYJWJ/ss3.png" width="800" height="400">
-
+<p float="left">
+  <img src="https://i.ibb.co/TrbHCP7/Screenshot-20240201-205937.jpg" width="300" height="600">
+  <img src="https://i.ibb.co/LY9JNcT/Screenshot-20240201-205941.jpg" width="300" height="600">
+  <img src="https://i.ibb.co/DkBwDnW/Screenshot-20240201-205914.jpg" width="300" height="600">
+  <img src="https://i.ibb.co/68VNGXZ/Screenshot-20240201-205922.jpg" width="300" height="600">
+</p>
 
 
 ### Features
@@ -22,23 +24,21 @@ Google Gemini-based Bot.
 
 ### Project Structure
 ```
-paper/
+ASKCROW/
 |- android/
 |- assets/
 |- build/
 |- lib/
+|- .env
 |- pubspec.yaml
 |-README.md
 ```
 
 ```
 lib/
-|- client/
 |- common/
-|- constants/
 |- models/
-|- repository/
-|- views/
+|- features/
 |- main.dart
 ```
 
