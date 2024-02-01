@@ -152,9 +152,6 @@ class HomeViewState extends State<HomeView> {
           }
         },
         onTapUp: (details) async {
-          context.read<ChatBloc>().add(
-                GetChatData(text: 'Who is Vaibhav Lakhera '),
-              );
           setState(() {
             isListening = false;
           });
